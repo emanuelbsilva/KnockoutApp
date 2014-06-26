@@ -33,6 +33,20 @@ test( "attributes and defaults", function(){
   equal(instance.defaults.lastName(), "lastName" );
 });
 
+test( "defaults should be defined when attributes parameter is undefined", function(){
+  var model = KnockoutApp.Model.extend({
+    defaults: {
+      firstName: ko.observable("firstName"),
+      lastName: ko.observable("lastName")
+    }
+  });
+
+  var instance = new model();
+
+  equal(instance.attributes.firstName(), "firstName" );
+  equal(instance.attributes.lastName(), "lastName" );
+});
+
 test( "collection", function(){
   var model = KnockoutApp.Model.extend();
   var coll = new KnockoutApp.Collection(model);

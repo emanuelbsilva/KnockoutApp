@@ -1,6 +1,6 @@
-/*! Knockout App - v0.2.5 - 2013-02-10
+/*! Knockout App - v0.2.5 - 2014-06-27
 * https://github.com/paglias/KnockoutApp
-* Copyright (c) 2013 Matteo Pagliazzi; Licensed MIT */
+* Copyright (c) 2014 Matteo Pagliazzi; Licensed MIT */
 
 // Set up KnockoutApp appropriately for the environment
 (function(root, factory) {
@@ -152,6 +152,9 @@
       var defaults = Utils.cloneObjKnockout(this.defaults);
       this.attributes = Utils.extendObjKnockout(defaults, attributes);
     }
+    else {
+      this.attributes = Utils.cloneObjKnockout(this.defaults);
+    }
 
     // If *options.collection* has been passed as a prameter set *this.collection* to *options.collection*
     if(options && options.collection) this.collection = options.collection;
@@ -276,10 +279,13 @@
 
   // ## KnockoutApp.Collection
   // A collection stores models in an arrayObservable and provide methods to modify it
-  var Collection = KnockoutApp.Collection = function(){
+  var Collection = KnockoutApp.Collection = function(model_s){
 
     // Create an array observable to store all the models
     this.models = ko.observableArray();
+
+    // If any model is passed to the constructor, add it
+    if(model_s) this.add(model_s);
 
     // Instead of overriding the function constructor use the initialize function to execute custom code on model creation
     // Knockout's observable properties can't be defined as prototype properties

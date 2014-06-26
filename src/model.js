@@ -26,6 +26,9 @@
       var defaults = Utils.cloneObjKnockout(this.defaults);
       this.attributes = Utils.extendObjKnockout(defaults, attributes);
     }
+    else {
+      this.attributes = Utils.cloneObjKnockout(this.defaults);
+    }
 
     // If *options.collection* has been passed as a prameter set *this.collection* to *options.collection*
     if(options && options.collection) this.collection = options.collection;
