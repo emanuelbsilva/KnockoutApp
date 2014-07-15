@@ -98,6 +98,48 @@ test( "extendClass", function(){
   equal(superStaticProp, "Class' staticProp");
 });
 
+test( "inheritClass", function(){
+  var Class = function(){
+    this.constructorProp = "Class' constructorProp";
+  };
+  Class.inherit = KnockoutApp.Utils.inheritClass;
+  Class.prototype.protoProp = "Class' protoProp";
+  Class.staticProp = "Class' staticProp";
+
+  Class = Class.inherit({
+    prop: {
+      prop1: 'property1'
+    }
+  });
+
+  var subClass = Class.inherit({
+    constructor: function(){
+      this.constructorProp = "subClass' constructorProp";
+    },
+    subProtoProp: function(){
+      return this.protoProp + " called by subClass' subProtoProp";
+    },
+    prop: {
+      prop2: 'property2'
+    }
+  },
+  {
+    staticProp: "subClass staticProp that override Class.staticProp"
+  });
+
+  var subClassInstance = new subClass();
+  var superProtoProp = subClass.__super__.protoProp;
+  var superStaticProp = subClass.__super__.constructor.staticProp;
+
+  equal(subClass.staticProp, "subClass staticProp that override Class.staticProp");
+  equal(subClassInstance.constructorProp, "subClass' constructorProp");
+  equal(subClassInstance.subProtoProp(), "Class' protoProp called by subClass' subProtoProp");
+  equal(superProtoProp, "Class' protoProp");
+  equal(superStaticProp, "Class' staticProp");
+  equal(subClassInstance.prop.prop2, "property2");
+  equal(subClassInstance.prop.prop1, "property1");
+});
+
 test( "unwrapValue", function(){
   var func = function(){
     this.a = "a property...";

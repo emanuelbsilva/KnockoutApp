@@ -73,6 +73,29 @@
       return child;
     },
 
+    inheritClass: function (protoProps, staticProps) {
+      var parent = this,
+          ctor = function(){},
+          child;
+
+      if (protoProps && protoProps.hasOwnProperty('constructor')) {
+        child = protoProps.constructor;
+      } else {
+        child = function(){ parent.apply(this, arguments); };
+      }
+
+      _.extend(child, parent);
+
+      child.prototype = _.cloneDeep(parent.prototype);
+      if (protoProps) _.merge(child.prototype, protoProps);
+      if (staticProps) _.merge(child, staticProps);
+
+      child.prototype.constructor = child;
+      child.__super__ = parent.prototype;
+
+      return child;
+    },
+
     // Return the value provided either if it's a function or a property (model.url or model.url())
     // The first parameter is the object where the value is contained, the second one is the value itself
     // After various attemps to make this working I've decided to adopt Underscore's *result* method.

@@ -9,7 +9,17 @@
   "scripts": {
     "test": "grunt test"
   },
-  "keywords" : ["model", "knockout", "knockoutjs", "knockoutapp", "browser", "collection", "controller", "client", "browser"],
+  "keywords": [
+    "model",
+    "knockout",
+    "knockoutjs",
+    "knockoutapp",
+    "browser",
+    "collection",
+    "controller",
+    "client",
+    "browser"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/paglias/KnockoutApp.git"
@@ -21,8 +31,9 @@
     "grunt-contrib-connect": "0.1.1rc6",
     "grunt-contrib-uglify": "0.1.1rc6",
     "grunt-contrib-concat": "0.1.2rc6",
-    "grunt-contrib-copy": "0.4.0rc7",
-    "grunt-docco": "https://github.com/bdougherty/grunt-docco/tarball/grunt-0.4",
-    "grunt-exec": "https://github.com/jharding/grunt-exec/tarball/grunt0.4rc"
+    "grunt-contrib-copy": "0.4.0rc7"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1"
   }
 }

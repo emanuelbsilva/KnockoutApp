@@ -1,4 +1,4 @@
-/*! Knockout App - v0.2.5 - 2014-06-27
+/*! Knockout App - v0.2.5 - 2014-07-15
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2014 Matteo Pagliazzi; Licensed MIT */
 
@@ -106,6 +106,29 @@
 
       if (protoProps) ko.utils.extend(child.prototype, protoProps);
       if (staticProps) ko.utils.extend(child, staticProps);
+
+      child.prototype.constructor = child;
+      child.__super__ = parent.prototype;
+
+      return child;
+    },
+
+    inheritClass: function (protoProps, staticProps) {
+      var parent = this,
+          ctor = function(){},
+          child;
+
+      if (protoProps && protoProps.hasOwnProperty('constructor')) {
+        child = protoProps.constructor;
+      } else {
+        child = function(){ parent.apply(this, arguments); };
+      }
+
+      _.extend(child, parent);
+
+      child.prototype = _.cloneDeep(parent.prototype);
+      if (protoProps) _.merge(child.prototype, protoProps);
+      if (staticProps) _.merge(child, staticProps);
 
       child.prototype.constructor = child;
       child.__super__ = parent.prototype;
@@ -483,6 +506,7 @@
 
   // Give extensibility to models and collections
   Collection.extend = Model.extend = Utils.extendClass;
+  Collection.inherit = Model.inherit = Utils.inheritClass;
 
   return KnockoutApp;
 
