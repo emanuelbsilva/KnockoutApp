@@ -1,4 +1,4 @@
-/*! Knockout App - v0.2.5 - 2014-07-15
+/*! Knockout App - v0.2.5 - 2014-08-03
 * https://github.com/paglias/KnockoutApp
 * Copyright (c) 2014 Matteo Pagliazzi; Licensed MIT */
 
@@ -343,8 +343,19 @@
           model = new self.model(attributes, {collection: self});
         }
         self.models.push(model);
-        if(create) model.save(options);
+
+        options = options || {};
+        options.success = function(data){
+          onAdd(data);
+          if(options.success) options.success(data);
+        }
+        if (create) model.save(options);
       });
+    },
+
+    // Called once a model has been added, Should be overriden in subclasses
+    onAdd: function(data){
+
     },
 
     // Empty the collection by removing all it's models and the reference to the collection from them

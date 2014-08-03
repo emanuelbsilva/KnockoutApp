@@ -41,8 +41,19 @@
           model = new self.model(attributes, {collection: self});
         }
         self.models.push(model);
-        if(create) model.save(options);
+
+        options = options || {};
+        options.success = function(data){
+          onAdd(data);
+          if(options.success) options.success(data);
+        }
+        if (create) model.save(options);
       });
+    },
+
+    // Called once a model has been added, Should be overriden in subclasses
+    onAdd: function(data){
+
     },
 
     // Empty the collection by removing all it's models and the reference to the collection from them
